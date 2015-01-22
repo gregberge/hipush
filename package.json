@@ -16,11 +16,13 @@
   },
   "homepage": "https://github.com/neoziro/hipush",
   "dependencies": {
+    "bluebird": "^2.8.2",
     "express": "^4.11.1",
     "lodash": "^2.4.1",
     "pg": "^4.2.0",
     "pg-hstore": "^2.3.1",
-    "sequelize": "^2.0.0-rc8"
+    "sequelize": "^2.0.0-rc8",
+    "spn-auth-token": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^1.10.0",
