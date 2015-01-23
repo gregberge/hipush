@@ -30,7 +30,7 @@ describe('Push package', function () {
       })
       .then(function () {
         var stats = fs.statSync(packagePath);
-        expect(stats.size).to.be.at.least(28000);
+        expect(stats.size).to.be.at.least(27000);
         expect(stats.size).to.be.at.most(29000);
       });
     });
