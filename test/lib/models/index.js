@@ -10,8 +10,4 @@ describe('Models', function () {
   it('should expose all models', function () {
     expect(models).to.have.property('Customer');
   });
-
-  after(function () {
-    return models.sequelize.close();
-  });
 });

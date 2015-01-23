@@ -31,5 +31,11 @@ gulp.task('test', function () {
   process.env.NODE_ENV = 'test';
 
   return gulp.src('test/lib/**/*.js', {read: false})
-  .pipe(mocha());
+  .pipe(mocha())
+  .once('error', function () {
+    process.exit(1);
+  })
+  .once('end', function () {
+    process.exit();
+  });
 });
