@@ -5,6 +5,14 @@ var spnPushPackage = require('../../../lib/services/spn-push-package');
 var models = require('../../../lib/models');
 
 describe('Push package', function () {
+  describe('#getPath', function () {
+    it('should return the path of the package', function () {
+      expect(spnPushPackage.getPath(2)).to.equal(
+        path.join(__dirname, '../../../storage/packages/2.zip')
+      );
+    });
+  });
+
   describe('#generate', function () {
     var packagePath;
 
