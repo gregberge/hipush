@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = {
   database: {
     name: 'hipush',
@@ -7,6 +9,12 @@ module.exports = {
     port: process.env.HIPUSH_DATABASE_PORT || 5432
   },
   spn: {
-    authTokenSalt: process.env.HIPUSH_SFP_AUTH_TOKEN_SALT
+    authTokenSalt: process.env.HIPUSH_SFP_AUTH_TOKEN_SALT,
+    websitePushId: 'web.net.hipush',
+    webServiceUrl: 'http://hipush.net/api/apple',
+    packageDirectory: path.join(__dirname, '../storage/packages'),
+    imageDirectory: path.join(__dirname, '../storage/images'),
+    cert: path.join(__dirname, '../storage/spn/cert.pem'),
+    key: path.join(__dirname, '../storage/spn/key.pem')
   }
 };
