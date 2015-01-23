@@ -1,3 +1,7 @@
 module.exports = {
-  isTestConfig: true
+  isTestConfig: true,
+  logger: {
+    name: 'hipush',
+    level: 'fatal'
+  }
 };

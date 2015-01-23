@@ -16,5 +16,8 @@ module.exports = {
     imageDirectory: path.join(__dirname, '../storage/images'),
     cert: path.join(__dirname, '../storage/spn/cert.pem'),
     key: path.join(__dirname, '../storage/spn/key.pem')
+  },
+  logger: {
+    level: 'info'
   }
 };
