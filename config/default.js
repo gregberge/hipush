@@ -1,6 +1,9 @@
 var path = require('path');
 
 module.exports = {
+  httpServer: {
+    port: 8080
+  },
   database: {
     name: 'hipush',
     user: process.env.HIPUSH_DATABASE_USER || 'hipush',
