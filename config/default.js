@@ -21,6 +21,7 @@ module.exports = {
     key: path.join(__dirname, '../storage/spn/key.pem')
   },
   logger: {
+    name: 'hipush',
     level: 'info'
   }
 };

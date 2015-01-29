@@ -9,7 +9,6 @@ module.exports = {
     key: path.join(__dirname, 'spn/test/key.pem')
   },
   logger: {
-    name: 'hipush',
     level: 'fatal'
   }
 };
