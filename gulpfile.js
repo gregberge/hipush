@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var browserSync = require('browser-sync');
 
 gulp.task('db:sync', function () {
   var models = require('./lib/models');
@@ -24,3 +25,14 @@ gulp.task('db:populate', ['db:sync'], function () {
     return website.setCustomer(customer);
   });
 });
+
+gulp.task('browsersync', function() {
+  browserSync({
+    open: false,
+    server: {
+      baseDir: './'
+    }
+  });
+});
+
+gulp.task('default', ['browsersync']);
