@@ -10,7 +10,7 @@ module.exports = function (shipit) {
       repositoryUrl: 'git@github.com:hipush/hipush.git',
       ignores: ['.*', 'test'],
       keepReleases: 5,
-      branch: 'deploy',
+      branch: 'master',
       shallowClone: true
     },
     production: {
