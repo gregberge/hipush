@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync');
 
 gulp.task('db:sync', function () {
@@ -26,12 +27,19 @@ gulp.task('db:populate', ['db:sync'], function () {
   });
 });
 
-gulp.task('browsersync', function() {
+gulp.task('browsersync', ['server'], function() {
+  var config = require('./lib/config');
+
   browserSync({
-    open: false,
-    server: {
-      baseDir: './'
-    }
+    proxy: 'localhost:' + config.httpServer.port,
+    open: false
+  });
+});
+
+gulp.task('server', function () {
+  return nodemon({
+    script: './lib/http-server/index.js',
+    ext: 'html js'
   });
 });
 
