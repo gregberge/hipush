@@ -20,6 +20,9 @@ module.exports = {
     cert: path.join(__dirname, '../storage/spn/cert.pem'),
     key: path.join(__dirname, '../storage/spn/key.pem')
   },
+  internal: {
+    authSecret: process.env.HIPUSH_INTERNAL_AUTH_SECRET
+  },
   logger: {
     name: 'hipush',
     level: 'info'
