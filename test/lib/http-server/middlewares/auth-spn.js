@@ -1,14 +1,14 @@
 var express = require('express');
-var authWebsite = require('../../../../lib/http-server/middlewares/auth-website');
+var authSpn = require('../../../../lib/http-server/middlewares/auth-spn');
 var spnAuthToken = require('../../../../lib/services/spn-auth-token');
 var request = require('supertest');
 
-describe('Auth website middleware', function () {
+describe('Auth SPN middleware', function () {
   var app;
 
   beforeEach(function () {
     app = express();
-    app.get('/', authWebsite(), function (req, res) {
+    app.get('/', authSpn(), function (req, res) {
       res.send('websiteId: ' + req.websiteId);
     });
     app.use(function (err, req, res, next) {
