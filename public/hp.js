@@ -9,7 +9,7 @@ function checkRemotePermission(permissionData) {
     window.safari.pushNotification.requestPermission(
       'https://hipush.net/api/apple', // The web service URL.
       'web.net.hipush',   // The Website Push ID.
-      {websiteId: 1}, // Data that you choose to send to your server to help you identify the user.
+      {websiteId: '1'}, // Data that you choose to send to your server to help you identify the user.
       checkRemotePermission     // The callback function.
     );
   } else if (permissionData.permission === 'denied') {
