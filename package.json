@@ -36,6 +36,7 @@
     "docker-host": "^3.0.0",
     "gulp": "^3.8.10",
     "gulp-nodemon": "^1.0.5",
+    "minimist": "^1.1.0",
     "mocha": "^2.1.0",
     "shipit-cli": "^1.1.0",
     "shipit-deploy": "^1.1.1",

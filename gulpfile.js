@@ -1,6 +1,17 @@
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync');
+var argv = require('minimist')(process.argv.slice(2));
+
+// Force gulp to properly exit on error.
+gulp.on('err', function () {
+  process.exit(1);
+});
+
+// Force gulp to properly exit at the end.
+gulp.on('stop', function () {
+  process.exit(0);
+});
 
 gulp.task('db:sync', function () {
   var models = require('./lib/models');
