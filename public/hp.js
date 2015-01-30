@@ -10,7 +10,7 @@ function checkRemotePermission(permissionData) {
       'https://hipush.net/api/apple', // The web service URL.
       'web.net.hipush',   // The Website Push ID.
       {
-        websiteId: 1
+        websiteId: '1'
       }, // Data that you choose to send to your server to help you identify the user.
       checkRemotePermission     // The callback function.
     );
