@@ -20,6 +20,10 @@ module.exports = function (shipit) {
 
   shipit.currentPath = path.join(shipit.config.deployTo, 'current');
 
+  shipit.on('fetched', function () {
+    shipit.start('localInstall');
+  });
+
   shipit.on('updated', function () {
     shipit.start('remoteInstall');
   });
@@ -28,8 +32,17 @@ module.exports = function (shipit) {
     shipit.start('restart');
   });
 
+  shipit.blTask('localInstall', function () {
+    return shipit.local(
+      'cd ' + shipit.config.workspace + ' && ' +
+      'npm install --production');
+  });
+
   shipit.blTask('remoteInstall', function () {
-    return shipit.remote('cd ' + shipit.releasePath + ' && npm i --production');
+    return shipit.remote(
+      'cd ' + shipit.releasePath + ' && ' +
+      'npm rebuild'
+    );
   });
 
   shipit.blTask('restart', function () {
