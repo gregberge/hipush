@@ -4,6 +4,8 @@ var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var app = require('../../../lib/http-server/app');
+var spnAuthToken = require('../../../lib/services/spn-auth-token');
+var config = require('../../../lib/config');
 
 describe('Http server app', function () {
   describe('GET apn package', function () {
@@ -20,10 +22,35 @@ describe('Http server app', function () {
       .expect('Content-Type', 'application/zip')
       .end(function (err, res) {
         if (err) return done(err);
-        console.log(res.text);
         expect(res.text).to.equal('zip file');
         done();
       });
+    });
+  });
+
+  describe('POST device token', function () {
+    var token;
+
+    beforeEach(function () {
+      token = spnAuthToken.encode({websiteId: 1});
+    });
+
+    it('should ..', function (done) {
+      request(app)
+      .post('/api/apple/v1/devices/my-beautiful-token/registrations/web.net.hipush')
+      .set('Authorization', 'ApplePushNotifications ' + token)
+      .end(done);
+    });
+  });
+
+  describe('POST package generation', function () {
+    it('should generate package', function (done) {
+      request(app)
+      .post('/api/internal/websites/1/generate-push-package')
+      .set('Authorization', 'Internal ' + config.internal.authSecret)
+      .expect(200)
+      .expect({error: false})
+      .end(done);
     });
   });
 });
