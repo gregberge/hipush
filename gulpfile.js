@@ -54,4 +54,15 @@ gulp.task('server', function () {
   });
 });
 
+gulp.task('generatePushPackage', function () {
+  var spnPushPackage = require('./lib/services/spn-push-package');
+
+  var websiteId = argv['website-id'];
+
+  if (!websiteId)
+    throw new Error('--website-id required');
+
+  return spnPushPackage.generateFromId(websiteId);
+});
+
 gulp.task('default', ['browsersync']);
