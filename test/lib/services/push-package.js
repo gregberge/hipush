@@ -35,4 +35,24 @@ describe('Push package', function () {
       });
     });
   });
+
+  describe('#generateFromId', function () {
+    var packagePath;
+
+    beforeEach(function () {
+      packagePath = path.join(__dirname, '../../../storage/packages/1.zip');
+
+      if (fs.existsSync(packagePath))
+        fs.unlinkSync(packagePath);
+    });
+
+    it('should generate a push package', function () {
+      return spnPushPackage.generateFromId(1)
+      .then(function () {
+        var stats = fs.statSync(packagePath);
+        expect(stats.size).to.be.at.least(27000);
+        expect(stats.size).to.be.at.most(29000);
+      });
+    });
+  });
 });
