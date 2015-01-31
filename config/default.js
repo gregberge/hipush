@@ -28,5 +28,13 @@ module.exports = {
   logger: {
     name: 'hipush',
     level: 'info'
+  },
+  aws: {
+    region: 'eu-west-1',
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET
+  },
+  sendQueue: {
+    name: 'hipush-send-queue'
   }
 };

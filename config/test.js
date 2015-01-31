@@ -10,5 +10,8 @@ module.exports = {
   },
   logger: {
     level: 'fatal'
+  },
+  sendQueue: {
+    name: 'hipush-send-queue-test'
   }
 };

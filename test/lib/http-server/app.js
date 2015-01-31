@@ -1,10 +1,12 @@
-var expect = require('chai').expect;
+var expect = require('chai').use(require('sinon-chai')).expect;
 var request = require('supertest');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
+var sinon = require('sinon');
 var app = require('../../../lib/http-server/app');
 var spnAuthToken = require('../../../lib/services/spn-auth-token');
+var sendQueue = require('../../../lib/services/send-queue');
 var config = require('../../../lib/config');
 var models = require('../../../lib/models');
 
@@ -96,6 +98,40 @@ describe('Http server app', function () {
       .expect(200)
       .expect({error: false})
       .end(done);
+    });
+  });
+
+  describe('POST notification', function () {
+    beforeEach(function () {
+      sinon.spy(sendQueue, 'push');
+    });
+
+    afterEach(function () {
+      sendQueue.push.restore();
+    });
+
+    it('should create a notification and add it to the queue', function (done) {
+      request(app)
+      .post('/api/internal/websites/1/notifications')
+      .set('Authorization', 'Internal ' + config.internal.authSecret)
+      .send({
+        title: 'My test notification',
+        body: 'A good news',
+        action: 'View',
+        url: 'http://mywebsite.com/x/d'
+      })
+      .expect(200)
+      .end(function (err, res) {
+        if (err) return done(err);
+        expect(res.body).to.have.property('id');
+        expect(res.body).to.have.property('title', 'My test notification');
+        expect(res.body).to.have.property('body', 'A good news');
+        expect(res.body).to.have.property('action', 'View');
+        expect(res.body).to.have.property('url', 'http://mywebsite.com/x/d');
+        expect(res.body).to.have.property('WebsiteId', 1);
+        expect(sendQueue.push).to.be.calledWith({notificationId: res.body.id});
+        done();
+      });
     });
   });
 });
