@@ -11,7 +11,7 @@ var config = require('../../../lib/config');
 var models = require('../../../lib/models');
 
 describe('Http server app', function () {
-  describe('POST /api/apple/v1/pushPackages/web.net.hipush', function () {
+  describe('POST /api/apple/website/:websiteId/v1/pushPackages/web.net.hipush', function () {
     beforeEach(function () {
       var packagePath = path.join(__dirname, '../../../storage/packages/123.zip');
       mkdirp.sync(path.dirname(packagePath));
@@ -20,8 +20,7 @@ describe('Http server app', function () {
 
     it('should return the zip', function (done) {
       request(app)
-      .post('/api/apple/v1/pushPackages/web.net.hipush')
-      .send({websiteId: 123})
+      .post('/api/apple/website/123/v1/pushPackages/web.net.hipush')
       .expect('Content-Type', 'application/zip')
       .end(function (err, res) {
         if (err) return done(err);
@@ -31,7 +30,7 @@ describe('Http server app', function () {
     });
   });
 
-  describe('POST /api/apple/v1/devices/:token/registrations/web.net.hipush', function () {
+  describe('POST /api/apple/website/1/v1/devices/:token/registrations/web.net.hipush', function () {
     var token;
 
     beforeEach(function () {
@@ -48,7 +47,7 @@ describe('Http server app', function () {
 
     it('should add a new user', function (done) {
       request(app)
-      .post('/api/apple/v1/devices/my-beautiful-token/registrations/web.net.hipush')
+      .post('/api/apple/website/1/v1/devices/my-beautiful-token/registrations/web.net.hipush')
       .set('Authorization', 'ApplePushNotifications ' + token)
       .expect(200)
       .end(function (err) {
@@ -63,7 +62,7 @@ describe('Http server app', function () {
     });
   });
 
-  describe('DELETE /api/apple/v1/devices/:token/registrations/web.net.hipush', function () {
+  describe('DELETE /api/apple/website/1/v1/devices/:token/registrations/web.net.hipush', function () {
     var token;
 
     beforeEach(function () {
@@ -76,7 +75,7 @@ describe('Http server app', function () {
 
     it('should add a new user', function (done) {
       request(app)
-      .delete('/api/apple/v1/devices/my-beautiful-token/registrations/web.net.hipush')
+      .delete('/api/apple/website/1/v1/devices/my-beautiful-token/registrations/web.net.hipush')
       .set('Authorization', 'ApplePushNotifications ' + token)
       .expect(200)
       .end(function (err) {
