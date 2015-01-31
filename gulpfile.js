@@ -18,6 +18,11 @@ gulp.task('db:sync', function () {
   return models.sequelize.sync();
 });
 
+gulp.task('db:drop', function () {
+  var models = require('./lib/models');
+  return models.sequelize.drop();
+});
+
 gulp.task('db:populate', ['db:sync'], function () {
   var Promise = require('bluebird');
   var models = require('./lib/models');
