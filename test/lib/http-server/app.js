@@ -37,7 +37,7 @@ describe('Http server app', function () {
     });
 
     beforeEach(function () {
-      models.User.find({where: {token: 'my-beautiful-token'}})
+      return models.User.find({where: {token: 'my-beautiful-token'}})
       .then(function (user) {
         if (user)
           return user.destroy();
@@ -55,6 +55,33 @@ describe('Http server app', function () {
         .then(function (user) {
           expect(user).to.have.property('WebsiteId', 1);
           expect(user).to.have.property('token', 'my-beautiful-token');
+        })
+        .nodeify(done);
+      });
+    });
+  });
+
+  describe('DELETE device token', function () {
+    var token;
+
+    beforeEach(function () {
+      token = spnAuthToken.encode({websiteId: 1});
+    });
+
+    beforeEach(function () {
+      return models.User.findOrCreate({where: {token: 'my-beautiful-token'}});
+    });
+
+    it('should add a new user', function (done) {
+      request(app)
+      .delete('/api/apple/v1/devices/my-beautiful-token/registrations/web.net.hipush')
+      .set('Authorization', 'ApplePushNotifications ' + token)
+      .expect(200)
+      .end(function (err) {
+        if (err) return done(err);
+        models.User.find({where: {token: 'my-beautiful-token'}})
+        .then(function (user) {
+          expect(user).to.be.null;
         })
         .nodeify(done);
       });
