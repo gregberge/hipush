@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var config = require('../config');
-
+var config = require('../lib/config');
 var server = require('../lib/http-server');
+
 server.listen(config.httpServer.port);

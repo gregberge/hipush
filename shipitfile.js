@@ -14,7 +14,7 @@ module.exports = function (shipit) {
       keepReleases: 5,
       branch: 'master'
     },
-    website: {
+    http: {
       services: ['hipush-http'],
       servers: 'hipush.net'
     },
