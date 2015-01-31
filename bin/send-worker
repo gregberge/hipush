@@ -24,7 +24,7 @@ sendQueue.pull(function (message) {
             body: notification.body,
             action: notification.action
           },
-          urlArgs: ['/url?' + notification.url],
+          urlArgs: ['url?' + notification.url],
           token: user.token
         });
       });
