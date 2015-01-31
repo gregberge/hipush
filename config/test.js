@@ -13,5 +13,8 @@ module.exports = {
   },
   sendQueue: {
     name: 'hipush-send-queue-test'
+  },
+  apnQueue: {
+    name: 'hipush-apn-queue-test'
   }
 };
