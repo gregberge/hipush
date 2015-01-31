@@ -134,4 +134,21 @@ describe('Http server app', function () {
       });
     });
   });
+
+  describe('GET url', function () {
+    it('should throw an error if url is not present', function (done) {
+      request(app)
+      .get('/url')
+      .expect(500)
+      .end(done);
+    });
+
+    it('should redirect to the url in query string', function (done) {
+      request(app)
+      .get('/url?url=http://google.com')
+      .expect(302)
+      .expect('Location', 'http://google.com')
+      .end(done);
+    });
+  });
 });
