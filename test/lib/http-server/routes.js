@@ -4,14 +4,14 @@ var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var sinon = require('sinon');
-var app = require('../../../lib/http-server/app');
+var app = require('../../../lib/http-server/routes');
 var spnAuthToken = require('../../../lib/services/spn-auth-token');
 var sendQueue = require('../../../lib/services/send-queue');
 var config = require('../../../lib/config');
 var models = require('../../../lib/models');
 
 describe('Http server app', function () {
-  describe('GET apn package', function () {
+  describe('POST /api/apple/v1/pushPackages/web.net.hipush', function () {
     beforeEach(function () {
       var packagePath = path.join(__dirname, '../../../storage/packages/123.zip');
       mkdirp.sync(path.dirname(packagePath));
@@ -31,7 +31,7 @@ describe('Http server app', function () {
     });
   });
 
-  describe('POST device token', function () {
+  describe('POST /api/apple/v1/devices/:token/registrations/web.net.hipush', function () {
     var token;
 
     beforeEach(function () {
@@ -63,7 +63,7 @@ describe('Http server app', function () {
     });
   });
 
-  describe('DELETE device token', function () {
+  describe('DELETE /api/apple/v1/devices/:token/registrations/web.net.hipush', function () {
     var token;
 
     beforeEach(function () {
@@ -90,7 +90,7 @@ describe('Http server app', function () {
     });
   });
 
-  describe('POST package generation', function () {
+  describe('POST /api/internal/websites/1/generate-push-package', function () {
     it('should generate package', function (done) {
       request(app)
       .post('/api/internal/websites/1/generate-push-package')
@@ -101,7 +101,7 @@ describe('Http server app', function () {
     });
   });
 
-  describe('POST notification', function () {
+  describe('POST /api/internal/websites/1/notifications', function () {
     beforeEach(function () {
       sinon.spy(sendQueue, 'push');
     });
@@ -135,7 +135,7 @@ describe('Http server app', function () {
     });
   });
 
-  describe('GET url', function () {
+  describe('GET /url', function () {
     it('should throw an error if url is not present', function (done) {
       request(app)
       .get('/url')
