@@ -6,6 +6,7 @@ var mkdirp = require('mkdirp');
 var app = require('../../../lib/http-server/app');
 var spnAuthToken = require('../../../lib/services/spn-auth-token');
 var config = require('../../../lib/config');
+var models = require('../../../lib/models');
 
 describe('Http server app', function () {
   describe('GET apn package', function () {
@@ -35,11 +36,28 @@ describe('Http server app', function () {
       token = spnAuthToken.encode({websiteId: 1});
     });
 
-    it('should ..', function (done) {
+    beforeEach(function () {
+      models.User.find({where: {token: 'my-beautiful-token'}})
+      .then(function (user) {
+        if (user)
+          return user.destroy();
+      });
+    });
+
+    it('should add a new user', function (done) {
       request(app)
       .post('/api/apple/v1/devices/my-beautiful-token/registrations/web.net.hipush')
       .set('Authorization', 'ApplePushNotifications ' + token)
-      .end(done);
+      .expect(201)
+      .end(function (err) {
+        if (err) return done(err);
+        models.User.find({where: {token: 'my-beautiful-token'}})
+        .then(function (user) {
+          expect(user).to.have.property('WebsiteId', 1);
+          expect(user).to.have.property('token', 'my-beautiful-token');
+        })
+        .nodeify(done);
+      });
     });
   });
 
