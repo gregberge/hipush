@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var Promise = require('bluebird');
 var sendQueue = require('../lib/services/send-queue');
 var apnQueue = require('../lib/services/apn-queue');
 var models = require('../lib/models');

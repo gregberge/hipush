@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/neoziro/hipush",
   "dependencies": {
+    "apn": "^1.6.2",
     "bluebird": "^2.8.2",
     "body-parser": "^1.10.2",
     "bunyan": "^1.3.2",
