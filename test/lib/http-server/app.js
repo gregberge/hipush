@@ -48,7 +48,7 @@ describe('Http server app', function () {
       request(app)
       .post('/api/apple/v1/devices/my-beautiful-token/registrations/web.net.hipush')
       .set('Authorization', 'ApplePushNotifications ' + token)
-      .expect(201)
+      .expect(200)
       .end(function (err) {
         if (err) return done(err);
         models.User.find({where: {token: 'my-beautiful-token'}})
