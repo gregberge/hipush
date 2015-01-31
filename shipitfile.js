@@ -16,7 +16,7 @@ module.exports = function (shipit) {
     },
     http: {
       services: ['hipush-http'],
-      servers: 'hipush.net'
+      servers: 'www.hipush.net'
     },
     workers: {
       services: ['hipush-send-worker', 'hipush-apn-worker'],
