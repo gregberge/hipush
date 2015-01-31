@@ -1,6 +1,6 @@
 var express = require('express');
 var request = require('supertest');
-var authInternal = require('../../../../lib/http-server/middlewares/auth-internal');
+var authInternal = require('../../../../lib/http/middlewares/auth-internal');
 var config = require('../../../../lib/config');
 
 describe('Auth internal middleware', function () {

@@ -1,5 +1,5 @@
 var express = require('express');
-var authSpn = require('../../../../lib/http-server/middlewares/auth-spn');
+var authSpn = require('../../../../lib/http/middlewares/auth-spn');
 var spnAuthToken = require('../../../../lib/services/spn-auth-token');
 var request = require('supertest');
 

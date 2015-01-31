@@ -54,7 +54,7 @@ gulp.task('browsersync', ['server'], function() {
 
 gulp.task('server', function () {
   return nodemon({
-    script: './lib/http-server/index.js',
+    script: './lib/http/index.js',
     ext: 'html js'
   });
 });
