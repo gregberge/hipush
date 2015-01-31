@@ -19,7 +19,7 @@ module.exports = function (shipit) {
       servers: 'hipush.net'
     },
     workers: {
-      services: [],
+      services: ['hipush-send-worker'],
       servers: 'workers.hipush.net'
     }
   });
