@@ -1,4 +1,5 @@
 var path = require('path');
+var Promise = require('bluebird');
 var argv = require('minimist')(process.argv.slice(2));
 
 module.exports = function (shipit) {
@@ -13,8 +14,13 @@ module.exports = function (shipit) {
       keepReleases: 5,
       branch: 'master'
     },
-    production: {
+    website: {
+      services: ['hipush-http'],
       servers: 'hipush.net'
+    },
+    workers: {
+      services: [],
+      servers: 'workers.hipush.net'
     }
   });
 
@@ -30,13 +36,14 @@ module.exports = function (shipit) {
   });
 
   shipit.on('published', function () {
-    shipit.start('restart');
+    shipit.start('restartServices');
   });
 
   shipit.blTask('localInstall', function () {
     return shipit.local(
       'cd ' + shipit.config.workspace + ' && ' +
-      'npm install --production');
+      'npm install --production'
+    );
   });
 
   shipit.blTask('remoteInstall', function () {
@@ -46,7 +53,9 @@ module.exports = function (shipit) {
     );
   });
 
-  shipit.blTask('restart', function () {
-    return shipit.remote('sudo service hipush restart');
+  shipit.blTask('restartServices', function () {
+    return Promise.all(shipit.config.services.map(function (service) {
+      return shipit.remote('sudo service ' + service + ' restart');
+    }));
   });
 };
