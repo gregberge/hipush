@@ -4,6 +4,15 @@ var Promise = require('bluebird');
 var sendQueue = require('../lib/services/send-queue');
 var apnQueue = require('../lib/services/apn-queue');
 var models = require('../lib/models');
+var logger = require('../lib/logger');
+
+process.on('SIGTERM', function () {
+  logger.info('Will shutdown');
+  sendQueue.close()
+  .then(function () {
+    models.sequelize.close();
+  });
+});
 
 sendQueue.pull(function (message) {
   // Ignore malformed messages.

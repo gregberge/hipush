@@ -35,9 +35,11 @@ module.exports = {
     secretAccessKey: process.env.AWS_SECRET
   },
   sendQueue: {
-    name: 'hipush-send-queue'
+    name: 'hipush-send-queue',
+    waitTime: 5
   },
   apnQueue: {
-    name: 'hipush-apn-queue'
+    name: 'hipush-apn-queue',
+    waitTime: 5
   }
 };
