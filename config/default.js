@@ -41,5 +41,8 @@ module.exports = {
   apnQueue: {
     name: 'hipush-apn-queue',
     waitTime: 5
+  },
+  apn: {
+    transmittedLogTime: 5000
   }
 };
