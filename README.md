@@ -9,10 +9,30 @@ Hipush server.
 
 Run environment using `fig up`.
 
-### Intialize and populate database
+### Database
+
+#### Sync
+
+```
+gulp db:sync
+```
+
+#### Populate
 
 ```
 gulp db:populate
+```
+
+#### Drop
+
+```
+gulp db:drop
+```
+
+#### Connect to local database
+
+```
+docker run --link hipush_database_1:postgres -ti postgres:9.4.0 sh -c 'exec psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U hipush'
 ```
 
 ## License
