@@ -19,6 +19,17 @@ describe('Http server app', function () {
       fs.writeFileSync(packagePath, 'zip file');
     });
 
+    it('should return an error if the zip is not found', function (done) {
+      request(app)
+      .post('/api/apple/website/33/v1/pushPackages/web.net.hipush')
+      .expect(400)
+      .end(function (err, res) {
+        if (err) return done(err);
+        expect(res.body).to.have.deep.property('error.message', 'Cannot find package for website 33');
+        done();
+      });
+    });
+
     it('should return the zip', function (done) {
       request(app)
       .post('/api/apple/website/123/v1/pushPackages/web.net.hipush')
@@ -164,7 +175,7 @@ describe('Http server app', function () {
     it('should throw an error if h is not present', function (done) {
       request(app)
       .get('/url')
-      .expect(500)
+      .expect(400)
       .end(done);
     });
 
