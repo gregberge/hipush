@@ -5,6 +5,7 @@ var sendQueue = require('../lib/services/send-queue');
 var apnQueue = require('../lib/services/apn-queue');
 var models = require('../lib/models');
 var logger = require('../lib/logger');
+var notificationUrl = require('../lib/services/notification-url');
 
 process.on('SIGTERM', function () {
   logger.info('Will shutdown');
@@ -33,7 +34,11 @@ sendQueue.pull(function (message) {
             body: notification.body,
             action: notification.action
           },
-          urlArgs: ['url?url=' + notification.url],
+          urlArgs: [notificationUrl.format({
+            userId: user.id,
+            notificationId: notification.id,
+            url: notification.url
+          })],
           token: user.token
         });
       });

@@ -7,6 +7,7 @@ var sinon = require('sinon');
 var app = require('../../../lib/http/routes');
 var spnAuthToken = require('../../../lib/services/spn-auth-token');
 var sendQueue = require('../../../lib/services/send-queue');
+var notificationUrl = require('../../../lib/services/notification-url');
 var config = require('../../../lib/config');
 var models = require('../../../lib/models');
 
@@ -135,7 +136,32 @@ describe('Http server app', function () {
   });
 
   describe('GET /url', function () {
-    it('should throw an error if url is not present', function (done) {
+    beforeEach(function () {
+      return models.User.findOrCreate({
+        where: {
+          id: 1
+        },
+        defaults: {
+          token: 'token'
+        }
+      }).then(function () {
+        return models.Notification.findOrCreate({
+          where: {
+            id: 1
+          },
+          defaults: {
+            WebsiteId: 1
+          }
+        });
+      }).then(function () {
+        return models.Click.find({where: {NotificationId: 1, UserId: 1}});
+      }).then(function (click) {
+        if (click)
+          return click.destroy();
+      });
+    });
+
+    it('should throw an error if h is not present', function (done) {
       request(app)
       .get('/url')
       .expect(500)
@@ -143,11 +169,28 @@ describe('Http server app', function () {
     });
 
     it('should redirect to the url in query string', function (done) {
+      var url = notificationUrl.format({
+        userId: 1,
+        notificationId: 1,
+        url: 'http://google.com'
+      });
+
       request(app)
-      .get('/url?url=http://google.com')
+      .get(url)
       .expect(302)
       .expect('Location', 'http://google.com')
-      .end(done);
+      .end(function (err) {
+        if (err) return done(err);
+
+        // Defer done to wait asynchronous stuff.
+        setTimeout(function () {
+          models.Click.find({where: {NotificationId: 1, UserId: 1}})
+          .then(function (click) {
+            expect(click).to.not.be.null;
+          })
+          .nodeify(done);
+        }, 50);
+      });
     });
   });
 });

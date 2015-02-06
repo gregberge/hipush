@@ -9,7 +9,7 @@ module.exports = {
     key: path.join(__dirname, 'spn/test/key.pem')
   },
   logger: {
-    level: 'fatal'
+    level: 'error'
   },
   sendQueue: {
     name: 'hipush-send-queue-test'

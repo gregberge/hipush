@@ -15,7 +15,7 @@ module.exports = {
     authTokenSalt: process.env.HIPUSH_SPN_AUTH_TOKEN_SALT,
     websitePushID: 'web.net.hipush',
     webServiceURL: 'https://hipush.net/api/apple/website/:websiteId',
-    urlFormatString: 'https://hipush.net/%@',
+    urlFormatString: 'https://hipush.net%@',
     packageDirectory: path.join(__dirname, '../storage/packages'),
     imageDirectory: path.join(__dirname, '../storage/images'),
     cert: path.join(__dirname, '../storage/spn/cert.pem'),
@@ -44,5 +44,6 @@ module.exports = {
   },
   apn: {
     transmittedLogTime: 5000
-  }
+  },
+  urlSecret: process.env.HIPUSH_URL_SECRET
 };
