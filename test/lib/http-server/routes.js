@@ -14,7 +14,7 @@ var models = require('../../../lib/models');
 describe('Http server app', function () {
   describe('POST /api/apple/website/:websiteId/v1/pushPackages/web.net.hipush', function () {
     beforeEach(function () {
-      var packagePath = path.join(__dirname, '../../../storage/packages/123.zip');
+      var packagePath = path.join(__dirname, '../../../storage/packages/1.zip');
       mkdirp.sync(path.dirname(packagePath));
       fs.writeFileSync(packagePath, 'zip file');
     });
@@ -32,7 +32,7 @@ describe('Http server app', function () {
 
     it('should return the zip', function (done) {
       request(app)
-      .post('/api/apple/website/123/v1/pushPackages/web.net.hipush')
+      .post('/api/apple/website/1/v1/pushPackages/web.net.hipush')
       .expect('Content-Type', 'application/zip')
       .end(function (err, res) {
         if (err) return done(err);
