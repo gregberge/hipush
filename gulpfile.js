@@ -120,6 +120,27 @@ gulp.task('copy', function () {
     .pipe(gulp.dest('./public/img'));
 });
 
+gulp.task('db:migrate', function () {
+  exitAtTheEnd();
+  var sequelize = require('./lib/models').sequelize;
+  var Umzug = require('umzug');
+  var umzug = new Umzug({
+    storage: 'sequelize',
+    storageOptions: {
+      sequelize: sequelize
+    },
+    migrations: {
+      params: [sequelize.getQueryInterface(), sequelize.constructor],
+      path: path.resolve(__dirname, 'migrations'),
+      pattern: /\.js$/
+    }
+  });
+
+  var method = argv.rollback ? 'down' : 'up';
+
+  return umzug[method]();
+});
+
 gulp.task('build', ['uglify', 'copy', 'usemin']);
 
 gulp.task('default', ['browsersync', 'build', 'watch']);

@@ -27,10 +27,7 @@ module.exports = function (shipit) {
   shipit.currentPath = path.join(shipit.config.deployTo, 'current');
 
   shipit.on('fetched', function () {
-    shipit.start('localInstall');
-
-    if (shipit.config.services.indexOf('hipush-http') !== -1)
-      shipit.start('build');
+    shipit.start('install build migrate prune');
   });
 
   shipit.on('updated', function () {
@@ -41,19 +38,38 @@ module.exports = function (shipit) {
     shipit.start('restartServices');
   });
 
-  shipit.blTask('localInstall', function () {
+  shipit.blTask('build', function () {
     return shipit.local(
-      'cd ' + shipit.config.workspace + ' && ' +
-      'npm install && ' +
-      'gulp build && ' +
-      'npm prune --production'
+      './node_modules/.bin/gulp build',
+      {cwd: shipit.config.workspace}
+    );
+  });
+
+  shipit.blTask('install', function () {
+    return shipit.local(
+      'npm install',
+      {cwd: shipit.config.workspace}
+    );
+  });
+
+  shipit.blTask('prune', function () {
+    return shipit.local(
+      'npm prune --production',
+      {cwd: shipit.config.workspace}
+    );
+  });
+
+  shipit.blTask('migrate', function () {
+    return shipit.local(
+      './node_modules/.bin/gulp db:migrate',
+      {cwd: shipit.config.workspace}
     );
   });
 
   shipit.blTask('remoteInstall', function () {
     return shipit.remote(
       'cd ' + shipit.releasePath + ' && ' +
-      (argv.local ? 'npm rebuild' : 'npm i --production')
+      'npm rebuild'
     );
   });
 
@@ -61,9 +77,5 @@ module.exports = function (shipit) {
     return Promise.all(shipit.config.services.map(function (service) {
       return shipit.remote('sudo service ' + service + ' restart');
     }));
-  });
-
-  shipit.blTask('build', function () {
-    return shipit.local('gulp build', {cwd: shipit.config.workspace});
   });
 };
