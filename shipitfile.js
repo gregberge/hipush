@@ -27,8 +27,10 @@ module.exports = function (shipit) {
   shipit.currentPath = path.join(shipit.config.deployTo, 'current');
 
   shipit.on('fetched', function () {
-    if (argv.local)
-      shipit.start('localInstall');
+    shipit.start('localInstall');
+
+    if (shipit.config.services.indexOf('hipush-http') !== -1)
+      shipit.start('build');
   });
 
   shipit.on('updated', function () {
@@ -42,7 +44,9 @@ module.exports = function (shipit) {
   shipit.blTask('localInstall', function () {
     return shipit.local(
       'cd ' + shipit.config.workspace + ' && ' +
-      'npm install --production'
+      'npm install && ' +
+      'gulp build && ' +
+      'npm prune --production'
     );
   });
 
@@ -57,5 +61,9 @@ module.exports = function (shipit) {
     return Promise.all(shipit.config.services.map(function (service) {
       return shipit.remote('sudo service ' + service + ' restart');
     }));
+  });
+
+  shipit.blTask('build', function () {
+    return shipit.local('gulp build', {cwd: shipit.config.workspace});
   });
 };
