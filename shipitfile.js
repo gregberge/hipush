@@ -27,7 +27,7 @@ module.exports = function (shipit) {
   shipit.currentPath = path.join(shipit.config.deployTo, 'current');
 
   shipit.on('fetched', function () {
-    shipit.start('install build migrate prune');
+    shipit.start('install', 'build', 'migrate', 'prune');
   });
 
   shipit.on('updated', function () {
@@ -38,16 +38,16 @@ module.exports = function (shipit) {
     shipit.start('restartServices');
   });
 
-  shipit.blTask('build', function () {
+  shipit.blTask('install', function () {
     return shipit.local(
-      './node_modules/.bin/gulp build',
+      'npm install',
       {cwd: shipit.config.workspace}
     );
   });
 
-  shipit.blTask('install', function () {
+  shipit.blTask('build', function () {
     return shipit.local(
-      'npm install',
+      './node_modules/.bin/gulp build',
       {cwd: shipit.config.workspace}
     );
   });
