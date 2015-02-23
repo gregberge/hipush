@@ -46,7 +46,8 @@ gulp.task('db:populate', ['db:sync'], function () {
   return Promise.all([
     models.Customer.create({
       id: 1,
-      email: 'berge.greg@gmail.com'
+      email: 'berge.greg@gmail.com',
+      password: models.Customer.generatePassword('password')
     }),
     models.Website.create({
       id: 1,
